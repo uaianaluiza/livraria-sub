@@ -1,4 +1,4 @@
-package br.com.zup.database
+package br.com.zup.database.entity
 
 import io.micronaut.core.annotation.Introspected
 import java.util.*
