@@ -1,4 +1,4 @@
-package br.com.zup.core
+package br.com.zup.core.model
 
 import java.util.*
 
