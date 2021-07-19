@@ -5,10 +5,12 @@ import br.com.zup.core.model.Livro
 import br.com.zup.core.port.LivroRepositoryPort
 import br.com.zup.database.entity.LivroEntity
 import br.com.zup.database.exception.LivroNotFoundException
+import com.datastax.oss.driver.api.core.CqlSession
+import com.datastax.oss.driver.api.core.cql.SimpleStatement
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.lang.RuntimeException
 import java.util.*
-import java.util.logging.Logger
 import javax.inject.Singleton
 
 @Singleton
@@ -70,4 +72,38 @@ class LivroRepositoryImpl (private val cqlSession: CqlSession) : LivroRepository
         }
     }
 
+    override fun delete(id: UUID) {
+        try {
+            cqlSession.execute(
+                SimpleStatement
+                    .newInstance(
+                        "DELETE FROM livraria.Livros WHERE id = ?",
+                        id
+                    )
+            )
+            LOG.info("Livro deleted{}")
+        }catch (e: RuntimeException){
+            throw LivroNotFoundException()
+        }
+    }
+
+    override fun update(id: UUID, livro: Livro): LivroEntity {
+        try {
+            cqlSession.execute(
+                SimpleStatement
+                    .newInstance(
+                        "UPDATE livraria.Livros SET nome = ?, nomeAutor = ?, anoDePublicacao = ? WHERE id = ?",
+                        livro.nome,
+                        livro.nomeAutor,
+                        livro.anoDePublicacao,
+                        livro.id
+                )
+            )
+
+            LOG.info("livro updated")
+            return LivroConverter.livroToLivroEntity(livro)
+        } catch (e: RuntimeException){
+            throw LivroNotFoundException()
+        }
+    }
 }
