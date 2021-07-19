@@ -1,7 +1,7 @@
 package br.com.zup.core.mapper
 
 import br.com.zup.core.model.Livro
-import br.com.zup.database.LivroEntity
+import br.com.zup.database.entity.LivroEntity
 
 
 class LivroConverter {
