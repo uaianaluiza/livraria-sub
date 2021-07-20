@@ -17,6 +17,6 @@ cassandra:
     ssl: true
     consistencylevel: LOCAL_ONE
 nats:
-  addresses: localhost:4222
-  username: guest
-  password: guest
+  server1:
+    addresses:
+      - "nats://localhost:4222"
