@@ -1,4 +1,4 @@
-package br.com.zup.infraestructure
+package br.com.zup.infraestructure.broker
 
 import br.com.zup.core.model.Livro
 import br.com.zup.core.service.LivroServiceImpl
@@ -13,7 +13,7 @@ class LivroListener(private val livroServiceImpl: LivroServiceImpl) {
     @Subject("livros")
     fun receive(livro:Livro){
         livroServiceImpl.create(livro)
-        logger.info("message received")
+        logger.info("message received $livro")
         println("Got livro - $livro")
     }
 }
